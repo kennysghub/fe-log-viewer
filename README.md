@@ -1,3 +1,24 @@
+## Getting Started
+
+1. Clone the repo:
+```
+https://github.com/kennysghub/fe-log-viewer.git
+```
+2. Install dependencies:
+
+```
+npm install
+
+```
+
+3. Start App:
+
+```
+npm start
+```
+
+Application is now running on http://localhost:3000 
+
 ## Overview
 
 The Log Viewer is a web application built to display and interact with large volumes of log data. It features log fetching and virtualized rendering for optimized performance. Each log can be expanded for inspection. 
