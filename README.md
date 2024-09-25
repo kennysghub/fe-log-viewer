@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+## Overview
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Log Viewer is a web application built to display and interact with large volumes of log data. It features log fetching and virtualized rendering for optimized performance. Each log can be expanded for inspection. 
 
-## Available Scripts
+## Architecture
 
-In the project directory, you can run:
+### Key Components:
 
-### `npm start`
+* **LogViewer** - Container component for LogEntry components.
+* **LogEntry** - Renders each individual log entry fetched from API.
+* **useFetch** - Custom hook for encapsulating the logic for fetching and parsing log data.
+* **useVirtualization** - Custom hook to optimize the rendering of large datasets.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Data Flow
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. **Data Ingestion and Parsing**
+   1. **useFetch** makes a GET request to the endpoint.
+   2. Once headers are received, the Promise resolves to a Response object. The body of the response is a ReadableStream, that can read chunk by chunk.
+   3. Inside a loop, chunks are converted into strings and added to the component's log state.
 
-### `npm test`
+2. **Virtual Rendering**
+   1. Only the logs visible in the current viewport plus an overscan area are rendered, reducing the number of nodes injected into the DOM.
+   2. The **useVirtualization** hook expands log entries by calculating their height, which ensures a smooth scrolling experience with variable-height log entries.
+   3. Expensive calculations such as getVisibleRange are memoized to prevent unnecessary recalculations.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. **Render Lifecycle**
+   1. **Initial Render** - On first load, the LogViewer component renders a minimal set of logs.
+   2. **Scroll Events** - As the user scrolls, the onScroll callback updates the scrollTop state in the virtualization hook, triggering a recalculation of the visible range.
+   3. **Visible Range Update** - When the visible range changes, only the newly visible logs are rendered, and logs scrolled out of view are removed from the DOM.
+   4. **Log Expansion** - When a user expands a log entry, the toggleRow function updates the expandedRows state, triggering a recalculation of total height and visible range. This only affects the rendering of logs around the expanded entry.
 
-### `npm run build`
+## Testing
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The current testing suite contains unit tests for the main components of the application:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* **App** - Mocks LogViewer component to isolate the App component's rendering.
+* **LogEntry** - Checks if the component renders correctly with given props.
+* **LogViewer** - Mocks custom hooks to control behavior and validates if log entries are rendered correctly.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+While the current tests provide a good foundation, these are areas that could be expanded if I had more time:
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* Integration tests 
+* Edge cases
+* Performance testing
