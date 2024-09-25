@@ -1,0 +1,64 @@
+.app {
+  font-family: Arial, sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.log-viewer-container {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.log-viewer {
+  overflow-y: auto;
+  background-color: #f8f8f8;
+}
+
+.log-entry {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.log-entry:hover {
+  background-color: #f0f0f0;
+}
+
+.log-entry.expanded {
+  background-color: #e8e8e8;
+}
+
+.log-header {
+  display: flex;
+  align-items: flex-start;
+}
+
+.log-time {
+  flex: 0 0 200px;
+  font-size: 0.9em;
+  color: #666;
+}
+.log-message {
+  margin-left: 10px;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.log-details {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-family: monospace;
+  font-size: 0.9em;
+  max-height: 300px;
+  overflow-y: auto;
+  color: darkred;
+}
