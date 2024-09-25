@@ -2,7 +2,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import LogViewer from "../LogViewer";
+import LogViewer from "./LogViewer";
 import useFetchLogs from "../../hooks/useFetchLogs";
 import useVirtualization from "../../hooks/useVirtualization";
 

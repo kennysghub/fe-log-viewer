@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import PropTypes from "prop-types";
-import LogEntry from "./LogEntry";
-import useFetchLogs from "../hooks/useFetchLogs";
-import useVirtualization from "../hooks/useVirtualization";
-import "../LogViewer.css";
+import LogEntry from "../LogEntry";
+import useFetchLogs from "../../hooks/useFetchLogs";
+import useVirtualization from "../../hooks/useVirtualization";
+import "./LogViewer.css";
 
 const LogViewer = ({ url }) => {
   const { logs, isLoading, error } = useFetchLogs(url);

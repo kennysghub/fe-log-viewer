@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { formatJSON } from "../utils/formatJSON.js";
+import { formatJSON } from "../../utils/formatJSON.js";
 const LogEntry = ({ log, isExpanded, onToggle }) => {
   return (
     <div
